@@ -1,17 +1,13 @@
 import type { NextConfig } from "next";
+import { i18n } from './next-i18next.config';
 
 const nextConfig: NextConfig = {
   /* config options here */
 };
 
 module.exports = {
-  i18n: {
-    locales: ['en', 'nl', 'de', 'fr', 'it', 'es', 'pt'],
-    defaultLocale: 'en',
-  },
-  localePath: typeof window === 'undefined' ? require('path').resolve('./public/locales') : '/locales',
-  reloadOnPrerender: process.env.NODE_ENV === 'development',
-  images: {
+  i18n,
+    images: {
     domains: ['localhost'],
   },
 };

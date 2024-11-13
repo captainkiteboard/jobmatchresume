@@ -2,7 +2,7 @@ import { AppProps } from 'next/app';
 import { appWithTranslation } from 'next-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider } from 'next-themes';
-import { Layout } from '../components/common/layout';
+import Layout from '../components/common/layout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/globals.css';

@@ -1,5 +1,5 @@
 // src/middleware/config.ts
-import { createRateLimiter } from '../utils/rateLimiter';
+import { createRateLimiter } from '../utils/ratelimiter';
 
 export const jobMatchRateLimiter = createRateLimiter({
   windowMs: 60 * 1000, // 1 minute

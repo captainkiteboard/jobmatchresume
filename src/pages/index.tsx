@@ -2,12 +2,50 @@
 import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Layout } from '../components/common/layout';
+import Layout from '../components/common/layout';
 import { toast } from 'react-toastify';
 import { performJobMatch } from '../middleware/jobmatch';
 import router from 'next/router';
+import nextI18NextConfig from '../../next-i18next.config';
 
-// ... (keep the existing interfaces)
+interface MatchResult {
+  CandidateEvaluation: {
+    Position: string;
+    OverallRecommendation: string;
+    Summary: {
+      TotalJobFitScore: number;
+    };
+    KeyCriteriaEvaluation: {
+      TechnicalSkillsMatch: {
+        Score: number;
+        Reasoning: string;
+      };
+      YearsOfExperience: {
+        Score: number;
+        Reasoning: string;
+      };
+      EducationalBackground: {
+        Score: number;
+        Reasoning: string;
+      };
+      IndustrySpecificKnowledge: {
+        Score: number;
+        Reasoning: string;
+      };
+      ProjectExperience: {
+        Score: number;
+        Reasoning: string;
+      };
+      SoftSkillsAndCulturalFit: {
+        Score: number;
+        Reasoning: string;
+      };
+    };
+    FollowUpQuestions: string[];
+  };
+}
+
+
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -41,7 +79,25 @@ const HomePage = () => {
     }
   };
 
-  // ... (keep the existing file upload handler)
+ 
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    type: 'resume' | 'jobDescription'
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+      if (type === 'resume') {
+        setResume(text);
+      } else {
+        setJobDescription(text);
+      }
+    } catch (error) {
+      toast.error(t('upload.error'));
+    }
+  };
 
   return (
     <Layout>
@@ -125,7 +181,7 @@ const HomePage = () => {
 export const getStaticProps = async ({ locale }: { locale: string }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig)),
     },
   };
 };
